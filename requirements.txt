@@ -4,3 +4,4 @@ matplotlib
 reportlab
 openai
 huggingface_hub==0.22.2
+pydantic==2.10.6
