@@ -22,7 +22,7 @@ def get_client(provider, api_key):
         if provider == "Groq":
             return OpenAI(api_key=api_key, base_url="https://api.groq.com/openai/v1")
         elif provider == "HuggingFace":
-            return OpenAI(api_key=api_key, base_url="https://api-inference.huggingface.co/v1")
+            return OpenAI(api_key=api_key, base_url="https://router.huggingface.co/v1")
         else: # OpenAI
             return OpenAI(api_key=api_key)
     except Exception:

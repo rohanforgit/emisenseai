@@ -2,6 +2,7 @@ import gradio as gr
 import os
 import json
 import tempfile
+import base64
 from datetime import datetime
 import pandas as pd
 
@@ -15,7 +16,7 @@ import pdf_generator as pdf
 with open("style.css", "r") as f:
     css_content = f.read()
 
-# Load API Key from environment or local .env file
+# Load API Key from environment or local .env file (excluded from git)
 HF_API_KEY = os.environ.get("HF_API_KEY") or os.environ.get("HF_TOKEN")
 if not HF_API_KEY and os.path.exists(".env"):
     try:
@@ -529,7 +530,7 @@ with gr.Blocks(title="EMI Sense AI - Loan Optimization Dashboard", css=css_conte
             # AI State Settings (loaded directly from env/.env, no UI inputs)
             api_provider = gr.State("HuggingFace")
             api_key = gr.State(HF_API_KEY)
-            model_name = gr.State("meta-llama/Meta-Llama-3-8B-Instruct")
+            model_name = gr.State("Qwen/Qwen2.5-7B-Instruct")
                 
             # Group 2: Core Loan Details
             with gr.Accordion("💵 Core Loan Details", open=True):
