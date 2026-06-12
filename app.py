@@ -891,4 +891,4 @@ with gr.Blocks(title="EMI Sense AI - Loan Optimization Dashboard", css=css_conte
 
 # Run app locally
 if __name__ == "__main__":
-    demo.launch(server_name="127.0.0.1", server_port=7860, show_api=False)
+    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False)
