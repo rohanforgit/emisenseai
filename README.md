@@ -1,3 +1,15 @@
+---
+title: EMI Sense AI
+emoji: 💡
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 4.36.1
+app_file: app.py
+pinned: false
+license: apache-2.0
+---
+
 # EMI Sense AI
 
 > **"Don't just calculate your loan. Optimize it."**
