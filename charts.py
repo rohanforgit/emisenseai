@@ -1,5 +1,7 @@
 import plotly.graph_objects as go
 import plotly.express as px
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import os
