@@ -15,6 +15,15 @@ import pdf_generator as pdf
 with open("style.css", "r") as f:
     css_content = f.read()
 
+# Load API Key from environment or local .env file
+HF_API_KEY = os.environ.get("HF_API_KEY") or os.environ.get("HF_TOKEN")
+if not HF_API_KEY and os.path.exists(".env"):
+    try:
+        with open(".env", "r") as f:
+            HF_API_KEY = f.read().strip()
+    except Exception:
+        pass
+
 # Define standard models per provider
 PROVIDER_MODELS = {
     "Groq": [
@@ -40,7 +49,7 @@ def update_model_choices(provider):
     Updates the model dropdown selections based on selected AI provider.
     """
     models = PROVIDER_MODELS.get(provider, PROVIDER_MODELS["Groq"])
-    return gr.Dropdown(choices=models, value=models[0])
+    return gr.update(choices=models, value=models[0])
 
 def render_kpi_cards(emi, total_interest, total_payment, savings, health_score, health_status, debt_free_date, currency):
     """
@@ -517,13 +526,10 @@ with gr.Blocks(title="EMI Sense AI - Loan Optimization Dashboard", css=css_conte
             </div>
             """)
             
-            # Group 1: AI Configuration
-            with gr.Accordion("🔑 AI Coach Settings", open=False):
-                api_provider = gr.Dropdown(choices=["Groq", "OpenAI", "HuggingFace"], label="AI Provider", value="Groq")
-                api_key = gr.Textbox(label="API Access Key", placeholder="Enter key (sk-...) to activate AI features", type="password")
-                models = PROVIDER_MODELS["Groq"]
-                model_name = gr.Dropdown(choices=models, label="AI Model", value=models[0], allow_custom_value=True)
-                api_provider.change(update_model_choices, inputs=[api_provider], outputs=[model_name])
+            # AI State Settings (loaded directly from env/.env, no UI inputs)
+            api_provider = gr.State("HuggingFace")
+            api_key = gr.State(HF_API_KEY)
+            model_name = gr.State("meta-llama/Meta-Llama-3-8B-Instruct")
                 
             # Group 2: Core Loan Details
             with gr.Accordion("💵 Core Loan Details", open=True):
@@ -584,7 +590,7 @@ with gr.Blocks(title="EMI Sense AI - Loan Optimization Dashboard", css=css_conte
                             summary_display = gr.Markdown("Click 'Calculate & Optimize' to run financial models...")
                         with gr.Column(scale=3):
                             gr.Markdown("### 🏆 AI Coach Recommendations & Top Actions")
-                            ai_display = gr.Markdown("Provide your API key and click Calculate to receive personalized AI recommendations.")
+                            ai_display = gr.Markdown("Click 'Calculate & Optimize' to receive personalized AI recommendations.")
                             
                     gr.Markdown("---")
                     
